@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "URDUTypesetting";
+  src: url("./UrdTypeb.ttf");
+}
+
+body input {
+  font-family: "URDUTypesetting";
+}
