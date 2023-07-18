@@ -1,6 +1,7 @@
 const { PDFDocument, rgb } = require("pdf-lib");
 const fontkit = require("@pdf-lib/fontkit");
 const fs = require("fs");
+const fields = require("./dobFields");
 
 async function run() {
   const file = fs.readFileSync("zain.pdf");
@@ -16,27 +17,17 @@ async function run() {
   const pages = doc.getPages();
   const firstPage = pages[0];
   const { width, height } = firstPage.getSize();
-  firstPage.drawRectangle({
-    color: rgb(1, 1, 1),
-    borderColor: rgb(0, 0, 0),
-    borderWidth: 0,
-    height: 6.5,
-    width: 45,
-    x: 95,
-    y: 589,
+  fields.forEach(({ width, height, x, y }) => {
+    firstPage.drawRectangle({
+      color: rgb(1, 1, 1),
+      borderColor: rgb(0, 0, 0),
+      borderWidth: 0,
+      height,
+      width,
+      x,
+      y,
+    });
   });
-  // for (let i = 0; i <= height; i += 10) {
-  //   for (let j = 0; j <= width; j += 10) {
-  //     console.log(i, j);
-  //     pages[0].drawText(`${j},${i}`, {
-  //       size: textSize,
-  //       font: customFont,
-  //       x: j,
-  //       y: i,
-  //       color: rgb(0, 0, 0),
-  //     });
-  //   }
-  // }
   const updatedDoc = await doc.save();
   fs.writeFileSync("template.pdf", updatedDoc);
 }
